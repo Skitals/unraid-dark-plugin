@@ -1,0 +1,87 @@
+<?xml version="1.0" standalone="yes"?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name "disable.security">
+<!ENTITY author "Andrew Zawadzki / cybrnook">
+<!ENTITY version "2019.12.05">
+<!ENTITY md5 "4834d749757ba120b80e380134126f4a">
+<!ENTITY launch "Settings/DisableSecurity">
+<!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
+<!ENTITY github "Squidly271/disable.security">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
+]>
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="bolt" min="6.7.0" support="https://forums.unraid.net/topic/80563-plugin-disable-security-mitigations/">
+  <CHANGES>
+###2019.12.05
+- Determine mitigation syntax via kernel version, not unRaid version.
+- Depending upon the circumstances, a reboot *may* be required after installing this update
+
+###2019.11.28
+- Adjust mitigations if downgrading from 6.8 to 6.7
+
+###2019.10.27
+- Fix font size on plugins tab
+
+###2019.09.28
+- Use simpler disables when running unRaid 6.8+
+
+###2019.06.02
+- Initial Release
+</CHANGES>
+  <FILE Run="/bin/bash">
+    <INLINE>
+# Remove old 'source' files
+rm -f $(ls /boot/config/plugins/&name;/&name;*.txz 2&gt;/dev/null | grep -v '&version;')
+</INLINE>
+  </FILE>
+  <!--
+The 'source' file.
+-->
+  <FILE Name="/boot/config/plugins/&name;/&name;-&version;-x86_64-1.txz" Run="upgradepkg --install-new">
+    <URL>https://raw.github.com/&github;/master/archive/&name;-&version;-x86_64-1.txz</URL>
+    <MD5>&md5;</MD5>
+  </FILE>
+  <!--
+The 'post-install' script
+-->
+  <FILE Run="/usr/bin/php">
+    <INLINE><![CDATA[
+<?PHP
+$kernelVersion = exec("uname -r");
+if ( version_compare("5.1",$kernelVersion,"<") ) {
+  $syslinux = file_get_contents("/boot/syslinux/syslinux.cfg");
+	$syslinux = str_replace("pti=off spectre_v2=off l1tf=off mds=off nospec_store_bypass_disable no_stf_barrier","mitigations=off",$syslinux);
+	file_put_contents("/boot/syslinux/syslinux.cfg",$syslinux);
+} else {
+  $syslinux = file_get_contents("/boot/syslinux/syslinux.cfg");
+	$syslinux = str_replace("mitigations=off","pti=off spectre_v2=off l1tf=off mds=off nospec_store_bypass_disable no_stf_barrier",$syslinux);
+	file_put_contents("/boot/syslinux/syslinux.cfg",$syslinux);
+}
+]]></INLINE>
+  </FILE>
+  <FILE Run="/bin/bash">
+    <INLINE>
+echo ""
+echo "----------------------------------------------------"
+echo " &name; has been installed."
+echo " Copyright 2019, Andrew Zawadzki"
+echo " Version: &version;"
+echo "----------------------------------------------------"
+echo ""
+</INLINE>
+  </FILE>
+  <!--
+The 'remove' script.
+-->
+  <FILE Run="/bin/bash" Method="remove">
+    <INLINE>
+echo "Re-enabling mitigations"
+echo ""
+/usr/local/emhttp/plugins/disable.security/scripts/enableMitigations.sh &gt; /dev/null
+removepkg &name;-&version;-x86_64-1
+rm -rf &plugdir;
+rm -rf /boot/config/plugins/&name;
+echo ""
+echo "If mitigations were disabled, they have now been re-enabled.  A reboot is required"
+</INLINE>
+  </FILE>
+</PLUGIN>
