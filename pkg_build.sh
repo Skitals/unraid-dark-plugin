@@ -1,3 +1,3 @@
 #!/bin/bash
-cd source/disable.security
+cd source/dark.theme
 pkg_build.sh
