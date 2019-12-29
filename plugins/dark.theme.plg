@@ -3,7 +3,7 @@
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / skitals">
 <!ENTITY version "2019.12.29">
-<!ENTITY md5 "70f940dbb5473329c535422a8eab5521">
+<!ENTITY md5 "a5b5e9880755ff65aae2863f1caac7df">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
