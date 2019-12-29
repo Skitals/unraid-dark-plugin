@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / skitals">
-<!ENTITY version "2019.12.28">
-<!ENTITY md5 "4834d749757ba120b80e380134126f4a">
+<!ENTITY version "2019.12.29">
+<!ENTITY md5 "0ef90709cb3efcd5190c3d3e5663e4d9">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,7 +11,7 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="bolt" min="6.7.0" support="https://github.com/Skitals/unraid-dark-plugin">
   <CHANGES>
-###2019.12.28
+###2019.12.29
 - Initial Release
   </CHANGES>
   <FILE Run="/bin/bash">

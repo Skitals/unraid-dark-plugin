@@ -5,9 +5,9 @@ Icon="book-dead"
 
 <?
 
-$syslinux = exec("cat /proc/cmdline | grep 'pti=off'");
-$theme = exec("cat /proc/cmdline | grep 'spectre_v2=off'");
-$output = $syslinux | $theme;
+
+$theme = exec("cat /boot/config/plugins/dynamix/dynamix.cfg | grep 'theme=\"dark\"'");
+$output = $theme;
 
 
 ?>
@@ -16,9 +16,10 @@ $output = $syslinux | $theme;
 <?
 
 	if ($output)
-		echo "<font color='orange'>Dark Theme currently disabled</font>";
-	else
 		echo "<font color='green'>Dark Theme currently enabled</font>";
+	else
+		echo "<font color='orange'>Dark Theme currently disabled</font>";
+		
 }
 ?>
 </font>
@@ -26,9 +27,9 @@ $output = $syslinux | $theme;
 <br><br>
 
 <?if ($output):?>
-<input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark Theme'>
-<?else:?>
 <input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark Theme'>
+<?else:?>
+<input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark Theme'>
 <?endif;?>
 
 <script>
