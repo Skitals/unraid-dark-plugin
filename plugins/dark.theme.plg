@@ -32,17 +32,12 @@ The 'post-install' script
 -->
   <FILE Run="/usr/bin/php">
     <INLINE><![CDATA[
-<?PHP
-$kernelVersion = exec("uname -r");
-if ( version_compare("5.1",$kernelVersion,"<") ) {
-  $syslinux = file_get_contents("/boot/syslinux/syslinux.cfg");
-	$syslinux = str_replace("pti=off spectre_v2=off l1tf=off mds=off nospec_store_bypass_disable no_stf_barrier","mitigations=off",$syslinux);
-	file_put_contents("/boot/syslinux/syslinux.cfg",$syslinux);
-} else {
-  $syslinux = file_get_contents("/boot/syslinux/syslinux.cfg");
-	$syslinux = str_replace("mitigations=off","pti=off spectre_v2=off l1tf=off mds=off nospec_store_bypass_disable no_stf_barrier",$syslinux);
-	file_put_contents("/boot/syslinux/syslinux.cfg",$syslinux);
-}
+
+<?php
+$file = '/boot/config/go';
+$person = "sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh\n";
+file_put_contents($file, $person, FILE_APPEND | LOCK_EX);
+
 ]]></INLINE>
   </FILE>
   <FILE Run="/bin/bash">
@@ -66,6 +61,7 @@ echo ""
 removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
+sed -i 's/sh \/usr\/local\/emhttp\/plugins\/dark.theme\/scripts\/enableDark.sh//g' /boot/config/go
 echo ""
 echo "Dark Theme Removed"
 </INLINE>
