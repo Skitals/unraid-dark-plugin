@@ -17,7 +17,7 @@ $output = $theme;
 
 	if ($output)
 		echo "<font color='green'>Dark Theme currently enabled</font>";
-	else
+	else {
 		echo "<font color='orange'>Dark Theme currently disabled</font>";
 		
 }
