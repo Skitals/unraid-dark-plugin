@@ -1,32 +1,19 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE PLUGIN [
-<!ENTITY name "disable.security">
-<!ENTITY author "Andrew Zawadzki / cybrnook">
-<!ENTITY version "2019.12.05">
+<!ENTITY name "dark.theme">
+<!ENTITY author "Justin Nolan / skitals">
+<!ENTITY version "2019.12.28">
 <!ENTITY md5 "4834d749757ba120b80e380134126f4a">
-<!ENTITY launch "Settings/DisableSecurity">
+<!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
-<!ENTITY github "Squidly271/disable.security">
+<!ENTITY github "Skitals/unraid-dark-plugin">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
 ]>
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="bolt" min="6.7.0" support="https://forums.unraid.net/topic/80563-plugin-disable-security-mitigations/">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="bolt" min="6.7.0" support="https://github.com/Skitals/unraid-dark-plugin">
   <CHANGES>
-###2019.12.05
-- Determine mitigation syntax via kernel version, not unRaid version.
-- Depending upon the circumstances, a reboot *may* be required after installing this update
-
-###2019.11.28
-- Adjust mitigations if downgrading from 6.8 to 6.7
-
-###2019.10.27
-- Fix font size on plugins tab
-
-###2019.09.28
-- Use simpler disables when running unRaid 6.8+
-
-###2019.06.02
+###2019.12.28
 - Initial Release
-</CHANGES>
+  </CHANGES>
   <FILE Run="/bin/bash">
     <INLINE>
 # Remove old 'source' files
@@ -63,7 +50,7 @@ if ( version_compare("5.1",$kernelVersion,"<") ) {
 echo ""
 echo "----------------------------------------------------"
 echo " &name; has been installed."
-echo " Copyright 2019, Andrew Zawadzki"
+echo " Copyright 2019, Justin Nolan"
 echo " Version: &version;"
 echo "----------------------------------------------------"
 echo ""
@@ -74,14 +61,13 @@ The 'remove' script.
 -->
   <FILE Run="/bin/bash" Method="remove">
     <INLINE>
-echo "Re-enabling mitigations"
+echo "Removing Dark Theme"
 echo ""
-/usr/local/emhttp/plugins/disable.security/scripts/enableMitigations.sh &gt; /dev/null
 removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
 echo ""
-echo "If mitigations were disabled, they have now been re-enabled.  A reboot is required"
+echo "Dark Theme Removed"
 </INLINE>
   </FILE>
 </PLUGIN>
