@@ -1,6 +1,6 @@
 Menu="UserPreferences"
 Title="Dark Theme"
-Icon="book-dead"
+Icon="file"
 ---
 
 <?
@@ -25,13 +25,11 @@ $output = $theme;
 </font>
 
 <br><br>
-
 <?if ($output):?>
-<input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark Theme'>
+<input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'>
 <?else:?>
-<input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark Theme'>
+<input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark'>
 <?endif;?>
-
 <script>
 $(function() {
 	if ( typeof caPluginUpdateCheck === "function" ) {

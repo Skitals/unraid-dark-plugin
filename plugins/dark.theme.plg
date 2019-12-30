@@ -2,14 +2,14 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / skitals">
-<!ENTITY version "2019.12.29">
-<!ENTITY md5 "a5b5e9880755ff65aae2863f1caac7df">
+<!ENTITY version "2019.12.30">
+<!ENTITY md5 "8292476229b5b889e0791e4f43add147">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
 <!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
 ]>
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="bolt" min="6.7.0" support="https://github.com/Skitals/unraid-dark-plugin">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://github.com/Skitals/unraid-dark-plugin">
   <CHANGES>
 ###2019.12.29
 - Initial Release
@@ -42,6 +42,8 @@ file_put_contents($file, $person, FILE_APPEND | LOCK_EX);
   </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
+sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh
+sed -i 's/theme=\".*\"/theme=\"dark\"/g' /boot/config/plugins/dynamix/dynamix.cfg
 echo ""
 echo "----------------------------------------------------"
 echo " &name; has been installed."
@@ -62,8 +64,10 @@ removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
 sed -i 's/sh \/usr\/local\/emhttp\/plugins\/dark.theme\/scripts\/enableDark.sh//g' /boot/config/go
+sed -i 's/theme=\".*\"/theme=\"white\"/g' /boot/config/plugins/dynamix/dynamix.cfg
 echo ""
 echo "Dark Theme Removed"
 </INLINE>
   </FILE>
 </PLUGIN>
+
