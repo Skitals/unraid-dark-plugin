@@ -52,7 +52,6 @@ echo ""
 removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
-sed -i 's/sh \/usr\/local\/emhttp\/plugins\/dark.theme\/scripts\/enableDark.sh//g' /boot/config/go
 sed -i 's/theme=\".*\"/theme=\"white\"/g' /boot/config/plugins/dynamix/dynamix.cfg
 echo ""
 echo "Dark Theme Removed"
