@@ -23,7 +23,15 @@ $output = $theme;
 }
 ?>
 </font>
-
+<br><br>
+<iframe src="/plugins/dark.theme/scripts/image.php?grayscale=65" height="400" width="500" style="border:none" id="imagesample"></iframe>
+<div id="slidecontainer">
+<p><input type="range" min="0" max="100" value="65" class="slider-color" id="id1"></p>
+<span>Value:</span> <span id="f" style="font-weight:bold;color:red"></span>
+<input type='button' onclick='refreshImage();' value='Preview'>
+<input type='button' onclick='applyGrayscale();' value='Apply Changes'>
+<span id="changes" style="font-weight:bold;color:red"></span>
+</div>
 <br><br>
 <?if ($output):?>
 <input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'>
@@ -51,4 +59,28 @@ function disableDark() {
 		}
 	});
 }
+
+var slideCol = document.getElementById("id1");
+var y = document.getElementById("f");
+y.innerHTML = slideCol.value;
+
+slideCol.oninput = function() {
+    y.innerHTML = this.value;
+}
+
+function refreshImage() {
+        document.getElementById('imagesample').src = "/plugins/dark.theme/scripts/image.php?grayscale=" + y.innerHTML;
+}
+
+function applyGrayscale() {
+            $.ajax({
+                type: "GET",
+                url: "/plugins/dark.theme/scripts/applyGrayscale.php" ,
+                data: { grayscale: y.innerHTML },
+                success : function() {
+                    document.getElementById("changes").innerHTML = "changes saved (" + y.innerHTML + ")";
+
+                }
+            });
+        }
 </script>
