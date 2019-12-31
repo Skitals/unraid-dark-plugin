@@ -9,35 +9,38 @@ Icon="file"
 $theme = exec("cat /boot/config/plugins/dynamix/dynamix.cfg | grep 'theme=\"dark\"'");
 $output = $theme;
 
-
-?>
-
-<font size='3'>
-<?
-
-	if ($output)
-		echo "<font color='green'>Dark Theme currently enabled</font>";
-	else {
-		echo "<font color='orange'>Dark Theme currently disabled</font>";
-		
+$lines_array = file("/usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+$search_string = "img{border:none;text-decoration:none;vertical-align:middle;-webkit-filter:grayscale";
+foreach($lines_array as $line) {
+    if(strpos($line, $search_string) !== false) {
+        list(, $new_str) = explode("(", $line);
+        // If you don't want the space before the word bong, uncomment the following line.
+        $new_str = substr($new_str, 0, strpos($new_str, "%"));
+    }
 }
+
+
 ?>
-</font>
-<br><br>
-<iframe src="/plugins/dark.theme/scripts/image.php?grayscale=65" height="400" width="500" style="border:none" id="imagesample"></iframe>
-<div id="slidecontainer">
-<p><input type="range" min="0" max="100" value="65" class="slider-color" id="id1"></p>
-<span>Value:</span> <span id="f" style="font-weight:bold;color:red"></span>
-<input type='button' onclick='refreshImage();' value='Preview'>
-<input type='button' onclick='applyGrayscale();' value='Apply Changes'>
-<span id="changes" style="font-weight:bold;color:red"></span>
-</div>
-<br><br>
+<div id="title">Adjust Grayscale</div>
+<table><tr>
+<td width="250"><iframe src="/plugins/dark.theme/scripts/image.php?grayscale=<? echo $new_str; ?>" height="150" width="225" style="border:none" id="imagesample"></iframe></td>
+<td width="100"><input type="range" min="0" max="100" value="<? echo $new_str; ?>" class="slider-color" id="id1"></td>
+<td width="100"><span>Value:</span> <span id="f" style="font-weight:bold;color:red"></span></td>
+<td width="100"><span style="height:150px;vertical-align: middle;"><input type='button' onclick='refreshImage();' value='Preview'></span></td>
+<td width="100"><span><input type='button' onclick='applyGrayscale();' value='Apply Changes'></span></td>
+<td width="100"><span id="changes" style="font-weight:bold;color:red"></span></td>
+</tr></table>
+<div id="title">Enable/Disable Dark Theme</div>
+<table><tr>
 <?if ($output):?>
-<input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'>
+<td width="250"></td><td><input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'></td>
+<td><font color='green'>Dark Theme currently enabled</font></td>
 <?else:?>
-<input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark'>
+<td width="250"></td><td><input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark'></td>
+<td><font color='orange'>Dark Theme currently disabled</font></td>
 <?endif;?>
+<td><input type='button' onclick='$(this).hide();refreshPage();' value='Refresh'></td>
+</tr></table>
 <script>
 $(function() {
 	if ( typeof caPluginUpdateCheck === "function" ) {
@@ -58,6 +61,9 @@ function disableDark() {
 			location.reload();
 		}
 	});
+}
+function refreshPage() {
+	location.reload();
 }
 
 var slideCol = document.getElementById("id1");
