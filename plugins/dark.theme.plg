@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / skitals">
-<!ENTITY version "2019.12.30">
-<!ENTITY md5 "3a68661a8c1aa84a03d767456bf594d0">
+<!ENTITY version "2019.12.31">
+<!ENTITY md5 "fa00ee2811e9c32660e98b5260ddf0f7">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,10 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2019.12.31
+- Customizations! Adjust the image/icon grayscale effect from the Settings / Dark Theme page.
+- Added CSS for Community Applications plugin.
+
 ###2019.12.30
 - Initial Release
   </CHANGES>
@@ -30,6 +34,32 @@ The 'source' file.
   <!--
 The 'post-install' script
 -->
+  <FILE Run="/usr/bin/php">
+    <INLINE><![CDATA[
+<?PHP
+if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
+echo "Settings exist.";
+} else {
+echo "Creating settings.cfg";
+$myfile = fopen("/boot/config/plugins/dark.theme/settings.cfg", "w") or die("Unable to open file!");
+$txt = "grayscale:65\n";
+fwrite($myfile, $txt);
+fclose($myfile);
+}
+$lines_array = file("/boot/config/plugins/dark.theme/settings.cfg");
+foreach($lines_array as $line) {
+    if(strpos($line, "grayscale") !== false) {
+        list(, $grayscale) = explode(":", $line);
+        $grayscale = str_replace(array("\r", "\n"), '', $grayscale);
+    }
+}
+if (!empty($grayscale)) {
+$print = exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
+echo $print;
+echo "Grayscale is set to $grayscale";
+} else { echo "Grayscale not set"; }
+]]></INLINE>
+  </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
 sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh
