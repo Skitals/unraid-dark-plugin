@@ -2,7 +2,7 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / skitals">
-<!ENTITY version "2019.12.31a">
+<!ENTITY version "2019.12.31b">
 <!ENTITY md5 "bb89fa329334d823987a4501e64c1c0d">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2019.12.31b
+- Cleanup install/uninstall script.
+    
 ###2019.12.31
 - Customizations! Adjust the image/icon grayscale effect from the Settings / Dark Theme page.
 - Added CSS for Community Applications plugin.
