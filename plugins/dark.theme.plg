@@ -53,7 +53,7 @@ foreach($lines_array as $line) {
         $grayscale = str_replace(array("\r", "\n"), '', $grayscale);
     }
 }
-if (!empty($grayscale)) {
+if (is_numeric($grayscale)) {
 $print = exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
 echo $print;
 echo "Grayscale is set to $grayscale";
