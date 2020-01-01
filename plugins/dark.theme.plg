@@ -83,6 +83,9 @@ removepkg &name;-&version;-x86_64-1
 rm -rf &plugdir;
 rm -rf /boot/config/plugins/&name;
 sed -i 's/theme=\".*\"/theme=\"white\"/g' /boot/config/plugins/dynamix/dynamix.cfg
+rm /usr/local/emhttp/plugins/dynamix/styles/default-dark.css
+rm /usr/local/emhttp/plugins/dynamix/styles/dynamix-dark.css
+rm /usr/local/emhttp/plugins/dynamix/styles/community.applications-dark.css
 echo ""
 echo "Dark Theme Removed"
 </INLINE>
