@@ -58,6 +58,14 @@ foreach($lines_array as $line) {
         list(, $grayscale) = explode(":", $line);
         $grayscale = str_replace(array("\r", "\n"), '', $grayscale);
     }
+    if(strpos($line, "textcolor") !== false) {
+        list(, $textcolor) = explode(":", $line);
+        $textcolor = str_replace(array("\r", "\n"), '', $textcolor);
+    }
+    if(strpos($line, "linkcolor") !== false) {
+        list(, $linkcolor) = explode(":", $line);
+        $linkcolor = str_replace(array("\r", "\n"), '', $linkcolor);
+    }
 }
 if (is_numeric($grayscale)) {
 $print = exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
