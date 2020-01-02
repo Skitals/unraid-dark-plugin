@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
-<!ENTITY author "Justin Nolan / skitals">
+<!ENTITY author "Justin Nolan / Skitals">
 <!ENTITY version "2019.12.31b">
 <!ENTITY md5 "bb89fa329334d823987a4501e64c1c0d">
 <!ENTITY launch "Settings/DarkTheme">
