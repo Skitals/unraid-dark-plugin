@@ -44,7 +44,7 @@ foreach($lines_array as $line) {
 <script>
 $(function() {
 	if ( typeof caPluginUpdateCheck === "function" ) {
-		caPluginUpdateCheck("dark.theme.plg",{name:"Skital's Dark Theme"});
+		caPluginUpdateCheck("dark.theme.plg",{name:"Dark Theme"});
 	}
 });
 
