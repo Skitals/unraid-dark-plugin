@@ -110,15 +110,11 @@ function previewChanges() {
 }
 
 function resetDefaults() {
-            $.ajax({
-                type: "GET",
-                url: "/plugins/dark.theme/scripts/applyChanges.php" ,
-                data: { grayscale: "65", textcolor: "9b9b9b", linkcolor: "576EA0" },
-                success : function() {
-                    document.getElementById("changes").innerHTML = "reverted to defaults";
-                    location.reload();
-		}
-            });
+        $.post("/plugins/dark.theme/scripts/resetDefaults.php",{},function(data) {
+                if (data) {
+                        location.reload();
+                }
+        });
 }
 
 function applySettings() {
