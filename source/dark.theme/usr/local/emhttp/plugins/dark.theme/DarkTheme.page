@@ -13,33 +13,60 @@ $lines_array = file("/usr/local/emhttp/plugins/dynamix/styles/default-dark.css")
 $search_string = "img{border:none;text-decoration:none;vertical-align:middle;-webkit-filter:grayscale";
 foreach($lines_array as $line) {
     if(strpos($line, $search_string) !== false) {
-        list(, $new_str) = explode("(", $line);
-        // If you don't want the space before the word bong, uncomment the following line.
-        $new_str = substr($new_str, 0, strpos($new_str, "%"));
+        list(, $grayscale) = explode("(", $line);
+        $grayscale = substr($grayscale, 0, strpos($grayscale, "%"));
+    }
+    if(strpos($line, "body{font-size:1.3rem;color:") !== false) {
+        list(, $textcolor) = explode("#", $line);
+        $textcolor = substr($textcolor, 0, strpos($textcolor, ";"));
+    }
+    if(preg_match('/a{color:#.*;text-decoration:none}/', $line)) {
+        list(, $linkcolor) = explode("#", $line);
+        $linkcolor = substr($linkcolor, 0, strpos($linkcolor, ";"));
     }
 }
 
-
 ?>
 <div id="title">Adjust Grayscale</div>
-<table><tr>
-<td width="250"><iframe src="/plugins/dark.theme/scripts/image.php?grayscale=<? echo $new_str; ?>" height="150" width="225" style="border:none" id="imagesample"></iframe></td>
-<td width="100"><input type="range" min="0" max="100" value="<? echo $new_str; ?>" class="slider-color" id="id1"></td>
-<td width="100"><span>Value:</span> <span id="f" style="font-weight:bold;color:red"></span></td>
-<td width="100"><span style="height:150px;vertical-align: middle;"><input type='button' onclick='refreshImage();' value='Preview'></span></td>
-<td width="100"><span><input type='button' onclick='applyGrayscale();' value='Apply Changes'></span></td>
-<td width="100"><span id="changes" style="font-weight:bold;color:red"></span></td>
-</tr></table>
+<table>
+<thead><tr><td>Setting</td><td>Value</td><td>Preview</td></tr></thead>
+<tr>
+<td width="200">Grayscale</td>
+<td width="300"><input type="range" min="0" max="100" value="<? echo $grayscale; ?>" class="slider-color" id="id1">
+<span>Value:</span> <span id="f" style="font-weight:bold;color:red"></span></td>
+<td id="sampleimage"><img src="/plugins/dark.theme/scripts/sample.jpg" /></td>
+</tr>
+</table>
+<div id="title">Adjust Colors</div>
+<table>
+<thead><tr><td>Setting</td><td>Value</td><td>Preview</td></tr></thead>
+<tr>
+<td width="200">Text Color</td>
+<td width="300"><input type="text" id="textcolorinput" value="<? echo $textcolor; ?>" /></td>
+<td id="sampletext">Sample text color.</td>
+</tr><tr>
+<td>Link Color</td>
+<td><input type="text" id="linkcolorinput" value="<? echo $linkcolor; ?>" /></td>
+<td id="samplelink"><a href="#" onclick="event.preventDefault();">Sample link color.</a></td>
+</tr>
+</table>
+<div id="title">Apply Changes</div>
+<table>
+<tr><td width="200"></td><td><input type='button' onclick='previewChanges();' value='Preview Changes'></td></tr>
+<tr><td width="200"></td><td><input type='button' onclick='applySettings();' value='Save Changes'></td>
+<td><span id="changes" style="font-weight:bold;color:red"></span></td></tr>
+<tr><td width="200"></td><td><input type='button' onclick='resetDefaults();' value='Reset Defaults'></td></tr>
+<tr><td width="200"></td><td><input type='button' onclick='refreshPage();' value='Refresh'></td></tr>
+</table>
 <div id="title">Enable/Disable Dark Theme</div>
 <table><tr>
 <?if ($output):?>
-<td width="250"></td><td><input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'></td>
+<td width="200"></td><td width="200"><input type='button' onclick='$(this).hide();disableDark();' value='Disable Dark'></td>
 <td><font color='green'>Dark Theme currently enabled</font></td>
 <?else:?>
-<td width="250"></td><td><input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark'></td>
+<td width="200"></td><td width="200"><input type='button' onclick='$(this).hide();enableDark();' value='Enable Dark'></td>
 <td><font color='orange'>Dark Theme currently disabled</font></td>
 <?endif;?>
-<td><input type='button' onclick='$(this).hide();refreshPage();' value='Refresh'></td>
 </tr></table>
 <script>
 $(function() {
@@ -69,24 +96,40 @@ function refreshPage() {
 var slideCol = document.getElementById("id1");
 var y = document.getElementById("f");
 y.innerHTML = slideCol.value;
+var textcolor = document.getElementById("textcolorinput");
+var linkcolor = document.getElementById("linkcolorinput");
 
 slideCol.oninput = function() {
     y.innerHTML = this.value;
 }
 
-function refreshImage() {
-        document.getElementById('imagesample').src = "/plugins/dark.theme/scripts/image.php?grayscale=" + y.innerHTML;
+function previewChanges() {
+	document.getElementById("sampletext").innerHTML = "<span style\=\"color:#" + textcolor.value + "\">Sample text color.</span>";
+	document.getElementById("samplelink").innerHTML = "<a href\=\"#\" style\=\"color:#" + linkcolor.value + "\" onclick\=\"event.preventDefault();\">Sample link color.</a>";
+	document.getElementById("sampleimage").innerHTML = "<img style\=\"-webkit-filter:grayscale(" + y.innerHTML + "%);filter:grayscale(" + y.innerHTML + "%);\" src\=\"/plugins/dark.theme/scripts/sample.jpg\" />";
 }
 
-function applyGrayscale() {
+function resetDefaults() {
             $.ajax({
                 type: "GET",
-                url: "/plugins/dark.theme/scripts/applyGrayscale.php" ,
-                data: { grayscale: y.innerHTML },
+                url: "/plugins/dark.theme/scripts/applyChanges.php" ,
+                data: { grayscale: "65", textcolor: "9b9b9b", linkcolor: "576EA0" },
                 success : function() {
-                    document.getElementById("changes").innerHTML = "changes saved (" + y.innerHTML + ")";
-
+                    document.getElementById("changes").innerHTML = "reverted to defaults";
                 }
             });
-        }
+}
+
+function applySettings() {
+if (/^([0-9A-F]{3}){1,2}$/i.test(textcolor.value) && /^([0-9A-F]{3}){1,2}$/i.test(linkcolor.value)) {
+            $.ajax({
+                type: "GET",
+                url: "/plugins/dark.theme/scripts/applyChanges.php" ,
+                data: { grayscale: y.innerHTML, textcolor: textcolor.value, linkcolor: linkcolor.value },
+                success : function() {
+                    document.getElementById("changes").innerHTML = "changes saved (" + y.innerHTML + ", " + textcolor.value + ")";
+                }
+            });
+      } else { document.getElementById("changes").innerHTML = "not a valid html hex!"; }
+}
 </script>

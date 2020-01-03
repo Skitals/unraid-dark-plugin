@@ -8,7 +8,6 @@ upSeconds="$(cat /proc/uptime | grep -o '^[0-9]\+')"
 upMins=$((${upSeconds} / 60))
 if [ "${upMins}" -gt "3" ]
 then
-    echo "Detected fresh install, switching to Dark Theme."
     sed -i 's/theme=\".*\"/theme=\"dark\"/g' /boot/config/plugins/dynamix/dynamix.cfg
 else
     echo "Detected fresh boot, preserving your settings."

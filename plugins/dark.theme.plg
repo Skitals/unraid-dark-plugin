@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.01">
-<!ENTITY md5 "fb34f894dec2f3031817a77b80b89642">
+<!ENTITY version "2020.01.02">
+<!ENTITY md5 "7b019a873fa3a4ff8bb85393cf74696c">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2020.01.02
+- You can now adjust text color and link color from the Dark Theme settings page!
+
 ###2020.01.01
 - Happy New Year! Minor changes.
 
@@ -44,34 +47,31 @@ The 'post-install' script
     <INLINE><![CDATA[
 <?PHP
 if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
-echo "Settings exist.";
-} else {
-echo "Creating settings.cfg";
-$myfile = fopen("/boot/config/plugins/dark.theme/settings.cfg", "w") or die("Unable to open file!");
-$txt = "grayscale:65\n";
-fwrite($myfile, $txt);
-fclose($myfile);
-}
-$lines_array = file("/boot/config/plugins/dark.theme/settings.cfg");
-foreach($lines_array as $line) {
+  $lines_array = file("/boot/config/plugins/dark.theme/settings.cfg");
+  foreach($lines_array as $line) {
     if(strpos($line, "grayscale") !== false) {
         list(, $grayscale) = explode(":", $line);
-        $grayscale = str_replace(array("\r", "\n"), '', $grayscale);
+        $grayscale = str_replace(array("\r", "\n", ";"), '', $grayscale);
     }
     if(strpos($line, "textcolor") !== false) {
         list(, $textcolor) = explode(":", $line);
-        $textcolor = str_replace(array("\r", "\n"), '', $textcolor);
+        $textcolor = str_replace(array("\r", "\n", ";"), '', $textcolor);
     }
     if(strpos($line, "linkcolor") !== false) {
         list(, $linkcolor) = explode(":", $line);
-        $linkcolor = str_replace(array("\r", "\n"), '', $linkcolor);
+        $linkcolor = str_replace(array("\r", "\n", ";"), '', $linkcolor);
     }
+  }
+  if ((is_numeric($grayscale)) && ($grayscale >= 0 && $grayscale <= 100)) {
+        exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
+  }
+  if (preg_match("/^([0-9A-F]{3}){1,2}$/", $textcolor)) {
+        exec("sed -i 's/font-size:1.3rem;color:#.*;background-color/font-size:1.3rem;color:#{$textcolor};background-color/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
+  }
+  if (preg_match("/^([0-9A-F]{3}){1,2}$/", $linkcolor)) {
+        exec("sed -i 's/a{color:#.*;text-decoration:none}/a{color:#{$linkcolor};text-decoration:none}/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+  }
 }
-if (is_numeric($grayscale)) {
-$print = exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
-echo $print;
-echo "Grayscale is set to $grayscale";
-} else { echo "Grayscale not set"; }
 ]]></INLINE>
   </FILE>
   <FILE Run="/bin/bash">
