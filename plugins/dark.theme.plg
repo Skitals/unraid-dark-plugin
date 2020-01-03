@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.02">
-<!ENTITY md5 "7b019a873fa3a4ff8bb85393cf74696c">
+<!ENTITY version "2020.01.02a">
+<!ENTITY md5 "e19ab19eeafc3f996f62a64686d493de">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2020.01.02a
+- Settings page now refreshed when you reset defaults.
+
 ###2020.01.02
 - You can now adjust text color and link color from the Dark Theme settings page!
 
