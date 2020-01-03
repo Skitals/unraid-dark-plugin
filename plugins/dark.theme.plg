@@ -85,7 +85,7 @@ if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
   </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
-sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh
+
 echo ""
 echo "----------------------------------------------------"
 echo " &name; has been installed."
