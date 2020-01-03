@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.03">
-<!ENTITY md5 "229e2fda436f550aa2898161ed61b76b">
+<!ENTITY version "2020.01.03a">
+<!ENTITY md5 "b7962eb8300e24a7c45b3c60d089b55e">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,9 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2020.01.03a
+- Dark Theme is no longer enabled on install. Too many bugs. Head to Settings - Dark Theme to enable. You only need to do this once.
+
 ###2020.01.03
 - Better error handling. Should fix some bugs. No changes to theme.
 
@@ -82,7 +85,11 @@ if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
   </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
-sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh
+cp /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css /usr/local/emhttp/plugins/dynamix/styles/default-dark.css
+cp /usr/local/emhttp/plugins/dynamix/styles/dynamix-black.css /usr/local/emhttp/plugins/dynamix/styles/dynamix-dark.css
+cp /usr/local/emhttp/plugins/dark.theme/scripts/community.applications-dark.css /usr/local/emhttp/plugins/dynamix/styles/community.applications-dar>
+cp /usr/local/emhttp/plugins/dark.theme/scripts/Syslinux.page /usr/local/emhttp/plugins/dynamix/Syslinux.page
+sed -i "s/'black','gray'\]/'black','gray','dark'\]/g" /usr/local/emhttp/login.php
 echo ""
 echo "----------------------------------------------------"
 echo " &name; has been installed."
@@ -111,4 +118,3 @@ echo "Dark Theme Removed"
 </INLINE>
   </FILE>
 </PLUGIN>
-

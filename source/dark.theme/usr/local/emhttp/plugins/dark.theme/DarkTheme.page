@@ -5,7 +5,6 @@ Icon="file"
 
 <?
 
-
 $theme = exec("cat /boot/config/plugins/dynamix/dynamix.cfg | grep 'theme=\"dark\"'");
 $output = $theme;
 
@@ -26,7 +25,7 @@ foreach($lines_array as $line) {
     }
 }
 
-?>
+if ($output):?>
 <div id="title">Adjust Grayscale</div>
 <table>
 <thead><tr><td>Setting</td><td>Value</td><td>Preview</td></tr></thead>
@@ -57,7 +56,16 @@ foreach($lines_array as $line) {
 <td><span id="changes" style="font-weight:bold;color:red"></span></td></tr>
 <tr><td width="200"></td><td><input type='button' onclick='resetDefaults();' value='Reset Defaults'></td></tr>
 <tr><td width="200"></td><td><input type='button' onclick='refreshPage();' value='Refresh'></td></tr>
+<!-- <tr><td width="200"></td><td>
+<form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame">
+<input type="hidden" name="#file" value="/boot/config/plugins/dynamix/dynamix.cfg">
+<input type="hidden" name="#section" value="display">
+<input type="hidden" name="theme" value="dark">
+<input type="submit" name="#apply" value="Enable Dark">
+</form>
+</td></tr> -->
 </table>
+<?endif;?>
 <div id="title">Enable/Disable Dark Theme</div>
 <table><tr>
 <?if ($output):?>
@@ -75,30 +83,15 @@ $(function() {
 	}
 });
 
-function enableDark() {
-	$.post("/plugins/dark.theme/scripts/enableDark.php",{},function(data) {
-		if (data) {
-			location.reload();
-		}
-	});
-}
-function disableDark() {
-	$.post("/plugins/dark.theme/scripts/disableDark.php",{},function(data) {
-		if (data) {
-			location.reload();
-		}
-	});
-}
 function refreshPage() {
 	location.reload();
 }
-
+<?if ($output):?>
 var slideCol = document.getElementById("id1");
 var y = document.getElementById("f");
 y.innerHTML = slideCol.value;
 var textcolor = document.getElementById("textcolorinput");
 var linkcolor = document.getElementById("linkcolorinput");
-
 slideCol.oninput = function() {
     y.innerHTML = this.value;
 }
@@ -128,5 +121,27 @@ if (/^([0-9A-F]{3}){1,2}$/i.test(textcolor.value) && /^([0-9A-F]{3}){1,2}$/i.tes
                 }
             });
       } else { document.getElementById("changes").innerHTML = "not a valid html hex!"; }
+}
+<?endif;?>
+function enableDark() {
+            $.ajax({
+                type: "POST",
+                url: "/update.php" ,
+                data: { "#file":"/boot/config/plugins/dynamix/dynamix.cfg","#section":"display","theme":"dark","#apply":"Enable Dark" },
+                success : function() {
+                    location.reload();
+                }
+            });
+}
+
+function disableDark() {
+            $.ajax({
+                type: "POST",
+                url: "/update.php" ,
+                data: { "#file":"/boot/config/plugins/dynamix/dynamix.cfg","#section":"display","theme":"white","#apply":"Enable Dark" },
+                success : function() {
+                    location.reload();
+                }
+            });
 }
 </script>
