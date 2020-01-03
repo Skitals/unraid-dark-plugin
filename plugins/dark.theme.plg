@@ -85,6 +85,7 @@ if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
   </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
+sh /usr/local/emhttp/plugins/dark.theme/scripts/enableDark.sh
 cp /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css /usr/local/emhttp/plugins/dynamix/styles/default-dark.css
 cp /usr/local/emhttp/plugins/dynamix/styles/dynamix-black.css /usr/local/emhttp/plugins/dynamix/styles/dynamix-dark.css
 cp /usr/local/emhttp/plugins/dark.theme/scripts/community.applications-dark.css /usr/local/emhttp/plugins/dynamix/styles/community.applications-dar>
