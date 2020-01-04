@@ -9,19 +9,38 @@ $theme = exec("cat /boot/config/plugins/dynamix/dynamix.cfg | grep 'theme=\"dark
 $output = $theme;
 
 $lines_array = file("/usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
-$search_string = "img{border:none;text-decoration:none;vertical-align:middle;-webkit-filter:grayscale";
 foreach($lines_array as $line) {
-    if(strpos($line, $search_string) !== false) {
+    if(strpos($line, "/* grayscale */-webkit-filter:grayscale") !== false) {
         list(, $grayscale) = explode("(", $line);
         $grayscale = substr($grayscale, 0, strpos($grayscale, "%"));
     }
-    if(strpos($line, "body{font-size:1.3rem;color:") !== false) {
+    if(strpos($line, "/* text color */color:") !== false) {
         list(, $textcolor) = explode("#", $line);
         $textcolor = substr($textcolor, 0, strpos($textcolor, ";"));
     }
-    if(preg_match('/a{color:#.*;text-decoration:none}/', $line)) {
+    if(strpos($line, "/* link color */color:") !== false) {
         list(, $linkcolor) = explode("#", $line);
         $linkcolor = substr($linkcolor, 0, strpos($linkcolor, ";"));
+    }
+    if(strpos($line, "/* bluetext */color:") !== false) {
+        list(, $bluetext) = explode("#", $line);
+        $bluetext = substr($bluetext, 0, strpos($bluetext, ";"));
+    }
+    if(strpos($line, "/* greentext */color:") !== false) {
+        list(, $greentext) = explode("#", $line);
+        $greentext = substr($greentext, 0, strpos($greentext, ";"));
+    }
+    if(strpos($line, "/* orangetext */color:") !== false) {
+        list(, $orangetext) = explode("#", $line);
+        $orangetext = substr($orangetext, 0, strpos($orangetext, ";"));
+    }
+    if(strpos($line, "/* greenorb */color:") !== false) {
+        list(, $greenorb) = explode("#", $line);
+        $greenorb = substr($greenorb, 0, strpos($greenorb, ";"));
+    }
+    if(strpos($line, "/* blueorb */color:") !== false) {
+        list(, $blueorb) = explode("#", $line);
+        $blueorb = substr($blueorb, 0, strpos($blueorb, ";"));
     }
 }
 
@@ -43,10 +62,36 @@ if ($output):?>
 <td width="200">Text Color</td>
 <td width="300"><input type="text" id="textcolorinput" value="<? echo $textcolor; ?>" /></td>
 <td id="sampletext">Sample text color.</td>
-</tr><tr>
+</tr>
+<tr>
 <td>Link Color</td>
 <td><input type="text" id="linkcolorinput" value="<? echo $linkcolor; ?>" /></td>
 <td id="samplelink"><a href="#" onclick="event.preventDefault();">Sample link color.</a></td>
+</tr>
+<tr>
+<td>Blue Text</td>
+<td><input type="text" id="bluetextinput" value="<? echo $bluetext; ?>" /></td>
+<td id="samplebluetext"><span style="color:#<? echo $bluetext; ?>">Sample text color.</span></td>
+</tr>
+<tr>
+<td>Green Text</td>
+<td><input type="text" id="greentextinput" value="<? echo $greentext; ?>" /></td>
+<td id="samplegreentext"><span style="color:#<? echo $greentext; ?>">Sample text color.</span></td>
+</tr>
+<tr>
+<td>Orange Text</td>
+<td><input type="text" id="orangetextinput" value="<? echo $orangetext; ?>" /></td>
+<td id="sampleorangetext"><span style="color:#<? echo $orangetext; ?>">Sample text color.</span></td>
+</tr>
+<tr>
+<td>Green Orb</td>
+<td><input type="text" id="greenorbinput" value="<? echo $greenorb; ?>" /></td>
+<td id="samplegreenorb"><i class="fa fa-circle orb green-orb middle" /></td>
+</tr>
+<tr>
+<td>Blue Orb</td>
+<td><input type="text" id="blueorbinput" value="<? echo $blueorb; ?>" /></td>
+<td id="sampleblueorb"><i class="fa fa-circle orb blue-orb middle" /></td>
 </tr>
 </table>
 <div id="title">Apply Changes</div>
@@ -55,15 +100,6 @@ if ($output):?>
 <tr><td width="200"></td><td><input type='button' onclick='applySettings();' value='Save Changes'></td>
 <td><span id="changes" style="font-weight:bold;color:red"></span></td></tr>
 <tr><td width="200"></td><td><input type='button' onclick='resetDefaults();' value='Reset Defaults'></td></tr>
-<tr><td width="200"></td><td><input type='button' onclick='refreshPage();' value='Refresh'></td></tr>
-<!-- <tr><td width="200"></td><td>
-<form markdown="1" name="display_settings" method="POST" action="/update.php" target="progressFrame">
-<input type="hidden" name="#file" value="/boot/config/plugins/dynamix/dynamix.cfg">
-<input type="hidden" name="#section" value="display">
-<input type="hidden" name="theme" value="dark">
-<input type="submit" name="#apply" value="Enable Dark">
-</form>
-</td></tr> -->
 </table>
 <?endif;?>
 <div id="title">Enable/Disable Dark Theme</div>
@@ -82,43 +118,95 @@ $(function() {
 		caPluginUpdateCheck("dark.theme.plg",{name:"Dark Theme"});
 	}
 });
-
-function refreshPage() {
-	location.reload();
-}
 <?if ($output):?>
 var slideCol = document.getElementById("id1");
 var y = document.getElementById("f");
 y.innerHTML = slideCol.value;
 var textcolor = document.getElementById("textcolorinput");
 var linkcolor = document.getElementById("linkcolorinput");
+var bluetext = document.getElementById("bluetextinput");
+var greentext = document.getElementById("greentextinput");
+var orangetext = document.getElementById("orangetextinput");
+var greenorb = document.getElementById("greenorbinput");
+var blueorb = document.getElementById("blueorbinput");
 slideCol.oninput = function() {
     y.innerHTML = this.value;
 }
 
 function previewChanges() {
-	document.getElementById("sampletext").innerHTML = "<span style\=\"color:#" + textcolor.value + "\">Sample text color.</span>";
-	document.getElementById("samplelink").innerHTML = "<a href\=\"#\" style\=\"color:#" + linkcolor.value + "\" onclick\=\"event.preventDefault();\">Sample link color.</a>";
-	document.getElementById("sampleimage").innerHTML = "<img style\=\"-webkit-filter:grayscale(" + y.innerHTML + "%);filter:grayscale(" + y.innerHTML + "%);\" src\=\"/plugins/dark.theme/scripts/sample.jpg\" />";
+	if (/^([0-9A-F]{3}){1,2}$/i.test(textcolor.value) 
+	&& /^([0-9A-F]{3}){1,2}$/i.test(linkcolor.value) 
+	&& /^([0-9A-F]{3}){1,2}$/i.test(bluetext.value) 
+	&& /^([0-9A-F]{3}){1,2}$/i.test(greentext.value)
+	&& /^([0-9A-F]{3}){1,2}$/i.test(greenorb.value)
+	&& /^([0-9A-F]{3}){1,2}$/i.test(blueorb.value) 
+	&& /^([0-9A-F]{3}){1,2}$/i.test(orangetext.value)) {
+		document.getElementById("sampletext").innerHTML = "<span style\=\"color:#" + textcolor.value + "\">Sample text color.</span>";
+		document.getElementById("samplebluetext").innerHTML = "<span style\=\"color:#" + bluetext.value + "\">Sample text color.</span>";
+                document.getElementById("samplegreentext").innerHTML = "<span style\=\"color:#" + greentext.value + "\">Sample text color.</span>";
+                document.getElementById("sampleorangetext").innerHTML = "<span style\=\"color:#" + orangetext.value + "\">Sample text color.</span>";
+                document.getElementById("sampleblueorb").innerHTML = "<i class=\"fa fa-circle orb blue-orb middle\" style=\"color:#" + blueorb.value + "\" />";
+                document.getElementById("samplegreenorb").innerHTML = "<i class=\"fa fa-circle orb green-orb middle\" style=\"color:#" + greenorb.value + "\" />";
+		document.getElementById("samplelink").innerHTML = "<a href\=\"#\" style\=\"color:#" + linkcolor.value + "\" onclick\=\"event.preventDefault();\">Sample link color.</a>";
+		document.getElementById("sampleimage").innerHTML = "<img style\=\"-webkit-filter:grayscale(" + y.innerHTML + "%);filter:grayscale(" + y.innerHTML + "%);\" src\=\"/plugins/dark.theme/scripts/sample.jpg\" />";
+		document.getElementById("changes").innerHTML = "";
+	} else { document.getElementById("changes").innerHTML = "not a valid html hex!"; }
 }
 
 function resetDefaults() {
-        $.post("/plugins/dark.theme/scripts/resetDefaults.php",{},function(data) {
-                if (data) {
-                        location.reload();
+            $.ajax({
+                type: "POST",
+                url: "/update.php" ,
+                data: { 
+			"#file":"/boot/config/plugins/dark.theme/dark.theme.cfg",
+			"#section":"display",
+			"grayscale":"65",
+			"textcolor":"9b9b9b",
+			"linkcolor":"576EA0",
+			"bluetext":"576EA0",
+			"greentext":"4f8a10",
+			"orangetext":"935800",
+                        "greenorb":"4f8a10",
+                        "blueorb":"576EA0",
+			"#apply":"Apply Settings" },
+                success : function() {
+                    $.get( "/plugins/dark.theme/scripts/applySettings.php", function( data ) {
+                    alert( "Settings reverted to defaults: " + data );
+		    });
+                    location.reload();
                 }
-        });
+            });
 }
 
 function applySettings() {
-if (/^([0-9A-F]{3}){1,2}$/i.test(textcolor.value) && /^([0-9A-F]{3}){1,2}$/i.test(linkcolor.value)) {
+        if (/^([0-9A-F]{3}){1,2}$/i.test(textcolor.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(linkcolor.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(bluetext.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(greentext.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(greenorb.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(blueorb.value)
+        && /^([0-9A-F]{3}){1,2}$/i.test(orangetext.value)) {
             $.ajax({
-                type: "GET",
-                url: "/plugins/dark.theme/scripts/applyChanges.php" ,
-                data: { grayscale: y.innerHTML, textcolor: textcolor.value, linkcolor: linkcolor.value },
+                type: "POST",
+                url: "/update.php" ,
+                data: { 
+			"#file":"/boot/config/plugins/dark.theme/dark.theme.cfg",
+			"#section":"display",
+			"grayscale":y.innerHTML,
+			"textcolor":textcolor.value,
+			"linkcolor":linkcolor.value,
+			"bluetext":bluetext.value,
+                        "greentext":greentext.value,
+                        "orangetext":orangetext.value,
+                        "greenorb":greenorb.value,
+                        "blueorb":blueorb.value,
+			"#apply":"Apply Settings" },
                 success : function() {
-                    document.getElementById("changes").innerHTML = "changes saved (" + y.innerHTML + ", " + textcolor.value + ")";
-                }
+		    $.get( "/plugins/dark.theme/scripts/applySettings.php", function( data ) {
+  		    alert( "New settings saved: " + data );
+		    });
+                    location.reload();
+		}
             });
       } else { document.getElementById("changes").innerHTML = "not a valid html hex!"; }
 }

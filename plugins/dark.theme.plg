@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.03e">
-<!ENTITY md5 "cbf09ad152bf326981baf632d5ff840a">
+<!ENTITY version "2020.01.04">
+<!ENTITY md5 "4271f4193e498fdd424a760f7ff86e0b">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,10 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2020.01.04
+- Added a bunch more custom settings.
+- Code overhaul.
+
 ###2020.01.03b-e
 - Fixing something I broke. Should be working again.
 
@@ -55,37 +59,6 @@ The 'source' file.
   <!--
 The 'post-install' script
 -->
-  <FILE Run="/usr/bin/php">
-    <INLINE><![CDATA[
-<?PHP
-if ( is_file("/boot/config/plugins/dark.theme/settings.cfg") ) {
-  $lines_array = file("/boot/config/plugins/dark.theme/settings.cfg");
-  foreach($lines_array as $line) {
-    if(strpos($line, "grayscale") !== false) {
-        list(, $grayscale) = explode(":", $line);
-        $grayscale = str_replace(array("\r", "\n", ";"), '', $grayscale);
-    }
-    if(strpos($line, "textcolor") !== false) {
-        list(, $textcolor) = explode(":", $line);
-        $textcolor = str_replace(array("\r", "\n", ";"), '', $textcolor);
-    }
-    if(strpos($line, "linkcolor") !== false) {
-        list(, $linkcolor) = explode(":", $line);
-        $linkcolor = str_replace(array("\r", "\n", ";"), '', $linkcolor);
-    }
-  }
-  if ((is_numeric($grayscale)) && ($grayscale >= 0 && $grayscale <= 100)) {
-        exec("sed -i 's/-webkit-filter:grayscale(.*%);filter:grayscale(.*%);/-webkit-filter:grayscale($grayscale%);filter:grayscale($grayscale%);/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
-  }
-  if (preg_match("/^([0-9A-F]{3}){1,2}$/", $textcolor)) {
-        exec("sed -i 's/font-size:1.3rem;color:#.*;background-color/font-size:1.3rem;color:#{$textcolor};background-color/g' /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css");
-  }
-  if (preg_match("/^([0-9A-F]{3}){1,2}$/", $linkcolor)) {
-        exec("sed -i 's/a{color:#.*;text-decoration:none}/a{color:#{$linkcolor};text-decoration:none}/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
-  }
-}
-]]></INLINE>
-  </FILE>
   <FILE Run="/bin/bash">
     <INLINE>
 cp /usr/local/emhttp/plugins/dark.theme/scripts/default-dark.css /usr/local/emhttp/plugins/dynamix/styles/default-dark.css
@@ -101,6 +74,47 @@ echo " Version: &version;"
 echo "----------------------------------------------------"
 echo ""
 </INLINE>
+  </FILE>
+  <FILE Run="/usr/bin/php">
+    <INLINE><![CDATA[
+<?PHP
+if ( is_file("/boot/config/plugins/dark.theme/dark.theme.cfg") ) {
+        $ini_array = parse_ini_file("/boot/config/plugins/dark.theme/dark.theme.cfg", true);
+        if (isset($ini_array['display']['grayscale'])) {
+                $grayscale = $ini_array['display']['grayscale'];
+                exec("sed -i 's/^\/\* grayscale \*\/.*$/\/\* grayscale \*\/-webkit-filter:grayscale({$grayscale}%);filter:grayscale({$grayscale}%);/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['textcolor'])) {
+                $textcolor = $ini_array['display']['textcolor'];
+                exec("sed -i 's/^\/\* text color \*\/.*$/\/\* text color \*\/color:#{$textcolor};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['linkcolor'])) {
+                $linkcolor = $ini_array['display']['linkcolor'];
+                exec("sed -i 's/^\/\* link color \*\/.*$/\/\* link color \*\/color:#{$linkcolor};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['bluetext'])) {
+                $bluetext = $ini_array['display']['bluetext'];
+                exec("sed -i 's/^\/\* bluetext \*\/.*$/\/\* bluetext \*\/color:#{$bluetext};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['orangetext'])) {
+                $orangetext = $ini_array['display']['orangetext'];
+                exec("sed -i 's/^\/\* orangetext \*\/.*$/\/\* orangetext \*\/color:#{$orangetext};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['greentext'])) {
+                $greentext = $ini_array['display']['greentext'];
+                exec("sed -i 's/^\/\* greentext \*\/.*$/\/\* greentext \*\/color:#{$greentext};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['greenorb'])) {
+                $greenorb = $ini_array['display']['greenorb'];
+                exec("sed -i 's/^\/\* greenorb \*\/.*$/\/\* greenorb \*\/color:#{$greenorb};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        if (isset($ini_array['display']['blueorb'])) {
+                $blueorb = $ini_array['display']['blueorb'];
+                exec("sed -i 's/^\/\* blueorb \*\/.*$/\/\* blueorb \*\/color:#{$blueorb};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+        }
+        echo "Dark Theme custom settings applied.";
+}
+]]></INLINE>
   </FILE>
   <!--
 The 'remove' script.

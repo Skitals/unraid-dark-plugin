@@ -1,18 +1,26 @@
 /* Dark Theme by Skitals */
 /* A modification of default-black */
-/* v0.7 */
+/* v1.0 */
 html{font-family:clear-sans;font-size:62.5%;height:100%}
-body{font-size:1.3rem;color:#9b9b9b;background-color:#1c1b1b;padding:0;margin:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-size:1.3rem;
+/* text color */color:#9b9b9b;
+background-color:#1c1b1b;padding:0;margin:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 @media (max-width:1280px){#template{min-width:1260px;max-width:1260px;margin:0}}
 @media (min-width:1281px){#template{min-width:1260px;margin:0 10px}}
 @media (min-width:1921px){#template{min-width:1260px;max-width:1920px;margin:0 auto}}
-img{border:none;text-decoration:none;vertical-align:middle;-webkit-filter:grayscale(65%);filter:grayscale(65%);}
+img{border:none;text-decoration:none;vertical-align:middle;
+/* grayscale */-webkit-filter:grayscale(65%);filter:grayscale(65%);
+}
 p{text-align:justify}
 p.centered{text-align:left}
 p:empty{display:none}
 a:hover{text-decoration:underline}
-a{color:#576EA0;text-decoration:none}
-a.none{color:#9b9b9b}
+a{
+/* link color */color:#576EA0;
+text-decoration:none}
+a.none{
+/* text color */color:#9b9b9b;
+}
 a.img{text-decoration:none;border:none}
 a.info{position:relative}
 a.info span{display:none;white-space:nowrap;font-variant:small-caps;position:absolute;top:16px;left:12px;line-height:2rem;color:#9b9b9b;padding:5px 8px;border:1px solid rgba(255,255,255,0.25);border-radius:3px;background-color:rgba(25,25,25,0.95);box-shadow:0 0 3px #303030}
@@ -50,7 +58,9 @@ input.trim{width:76px;min-width:76px}
 textarea{resize:none}
 #header{position:absolute;top:0;left:0;width:100%;min-width:1260px;height:91px;z-index:100;margin:0;color:#9b9b9b;background-color:#3f3f3f;background-size:100% 90px;background-repeat:no-repeat}
 #header .logo{float:left;margin-left:10px;color:#9b9b9b;width:160px;text-align:center}
-#header .logo svg{width:160px;display:block;margin:25px 50px 8px 0;-webkit-filter:grayscale(65%);filter:grayscale(65%);}
+#header .logo svg{width:160px;display:block;margin:25px 50px 8px 0;
+/* grayscale */-webkit-filter:grayscale(65%);filter:grayscale(65%);
+}
 #header .block{margin:0;float:right;text-align:right;background-color:3f3f3f;padding:10px 12px}
 #header .text-left{float:left;text-align:right;padding-right:5px;border-right:solid medium #1c1b1b}
 #header .text-right{float:right;text-align:left;padding-left:5px}
@@ -86,18 +96,28 @@ textarea{resize:none}
 .red{color:#f0000c;padding-left:5px;padding-right:5px}
 .orange{color:#e68a00;padding-left:5px;padding-right:5px}
 .blue{color:#486dba;padding-left:5px;padding-right:5px}
-.green-text,.passed{color:#4f8a10}
+.green-text,.passed{
+/* greentext */color:#4f8a10;
+}
 .red-text,.failed{color:#9D5458 !important}
-.orange-text,.warning{color:#935800}
-.blue-text{color:#576EA0}
-.grey-text{color:#606060}
-.green-orb{color:#4f8a10}
-.grey-orb{color:#c0c0c0}
-.blue-orb{color:#576EA0}
+.orange-text,.warning{
+/* orangetext */color:#935800;
+}
+.blue-text{
+/* bluetext */color:#576EA0;
+}
+.grey-text{color:#606060;}
+.green-orb{
+/* greenorb */color:#4f8a10;
+}
+.grey-orb{color:#c0c0c0;}
+.blue-orb{
+/* blueorb */color:#576EA0;
+}
 .yellow-orb{color:#935800}
 .red-orb{color:#ff3300}
 .usage-bar{float:left;height:2rem;line-height:2rem;width:14rem;padding:1px 1px 1px 2px;margin:8px 12px;border-radius:3px;background-color:#585858;box-shadow:0 1px 0 #989898,inset 0 1px 0 #202020}
-.usage-bar>span{display:block;height:100%;text-align:right;border-radius:2px;color:#9b9b9b;background-color:#808080;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.usage-bar>span{display:block;height:100%;text-align:right;border-radius:2px;color:#000;background-color:#808080;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
 .usage-disk{position:relative;height:1.8rem;background-color:#575757;margin:0;color:#000;}
 .usage-disk>span:first-child{position:absolute;left:0;margin:0!important;height:1.8rem;background-color:#787878}
 .usage-disk>span:last-child{position:relative;padding-right:4px;z-index:1}
