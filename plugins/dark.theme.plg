@@ -7,7 +7,7 @@
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/beta/plugins/&name;.plg">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&github;/master/plugins/&name;.plg">
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
@@ -53,7 +53,7 @@ rm -f $(ls /boot/config/plugins/&name;/&name;*.txz 2&gt;/dev/null | grep -v '&ve
 The 'source' file.
 -->
   <FILE Name="/boot/config/plugins/&name;/&name;-&version;-x86_64-1.txz" Run="upgradepkg --install-new">
-    <URL>https://raw.github.com/&github;/beta/archive/&name;-&version;-x86_64-1.txz</URL>
+    <URL>https://raw.github.com/&github;/master/archive/&name;-&version;-x86_64-1.txz</URL>
     <MD5>&md5;</MD5>
   </FILE>
   <!--
