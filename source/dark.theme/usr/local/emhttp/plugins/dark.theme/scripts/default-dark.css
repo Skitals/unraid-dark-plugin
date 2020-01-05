@@ -356,3 +356,21 @@ pre::-webkit-scrollbar{background-color:#BEBBBF;}
 pre::-webkit-scrollbar-thumb{background-color:#9b9b9b;}
 pre::-webkit-scrollbar-track{background-color:#1c1b1b;}
 textarea.raw{background-color:#9b9b9b;color:#1c1b1b;}
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 50px;
+	height: 20px;
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
+}
+input[type=text].dark_theme {
+	width: 100px;
+}
+table.dark_theme thead tr:first-child td{font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;background-color:#262626}
+table.dark_theme thead tr:last-child{border-bottom:1px solid #2b2b2b}
