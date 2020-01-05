@@ -51,10 +51,10 @@ if ($output):?>
 	<thead>
 		<tr>
 			<td style="width:20%"></td>
-                        <td style="width:150px">Setting</td>
+                        <td style="width:125px">Setting</td>
                         <td style="width:150px">Value</td>
-			<td style="width:150px">Default</td>
-                        <td style="width:250px">Picker</td>
+			<td style="width:100px">Default</td>
+                        <td style="width:180px">Picker</td>
 			<td>Preview</td>
 		</tr>
 	</thead>
@@ -75,10 +75,10 @@ if ($output):?>
 	<thead>
 		<tr>
                         <td style="width:20%"></td>
-                        <td style="width:150px">Setting</td>
+                        <td style="width:125px">Setting</td>
                         <td style="width:150px">Value</td>
-			<td style="width:150px">Default</td>
-                        <td style="width:250px">Picker</td>
+			<td style="width:100px">Default</td>
+                        <td style="width:180px">Picker</td>
                         <td>Preview</td>
 		</tr>
 	</thead>
@@ -146,7 +146,7 @@ if ($output):?>
         <thead>
                 <tr>
                         <td style="width:20%"></td>
-			<td style="width:150px"></td>
+			<td style="width:125px"></td>
                         <td style="width:300px"></td>
                         <td></td>
                         <td></td>
@@ -179,7 +179,7 @@ if ($output):?>
         <thead>
                 <tr>
                         <td style="width:20%"></td>
-			<td style="width:150px"></td>
+			<td style="width:125px"></td>
                         <td style="width:300px"></td>
                         <td></td>
                         <td></td>
