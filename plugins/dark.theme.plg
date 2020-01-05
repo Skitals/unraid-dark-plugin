@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.04">
-<!ENTITY md5 "4271f4193e498fdd424a760f7ff86e0b">
+<!ENTITY version "2020.01.05">
+<!ENTITY md5 "e2525aa9655fd326b7c10ed333ae8bbc">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
@@ -11,6 +11,11 @@
 ]>
 <PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" icon="file" min="6.7.0" support="https://forums.unraid.net/topic/86724-plugin-dark-theme-now-in-plugin-format/">
   <CHANGES>
+###2020.01.05
+- Added HTML5 color picker.
+- Added confirm to reset to defaults.
+- Cleaned up formatting on settings page.
+
 ###2020.01.04
 - Added a bunch more custom settings.
 - Code overhaul.
