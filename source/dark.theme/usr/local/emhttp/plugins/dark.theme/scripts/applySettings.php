@@ -8,6 +8,7 @@ if ( is_file("/boot/config/plugins/dark.theme/dark.theme.cfg") ) {
 	if (isset($ini_array['display']['textcolor'])) {
 		$textcolor = $ini_array['display']['textcolor'];
 		exec("sed -i 's/^\/\* text color \*\/.*$/\/\* text color \*\/color:#{$textcolor};/g' /usr/local/emhttp/plugins/dynamix/styles/default-dark.css");
+		exec("sed -i 's/^\/\* text color \*\/.*$/\/\* text color \*\/color:#{$textcolor};/g' /usr/local/emhttp/plugins/dynamix/styles/dynamix-dark.css");
 	}
         if (isset($ini_array['display']['linkcolor'])) {
 		$linkcolor = $ini_array['display']['linkcolor'];
