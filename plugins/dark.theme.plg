@@ -2,8 +2,8 @@
 <!DOCTYPE PLUGIN [
 <!ENTITY name "dark.theme">
 <!ENTITY author "Justin Nolan / Skitals">
-<!ENTITY version "2020.01.05c">
-<!ENTITY md5 "803cb788241ea6d09c2f2cbb01070d37">
+<!ENTITY version "2020.01.05d">
+<!ENTITY md5 "d9fb1eaedad26c0b83f0cd4af25ffddd">
 <!ENTITY launch "Settings/DarkTheme">
 <!ENTITY plugdir "/usr/local/emhttp/plugins/&name;">
 <!ENTITY github "Skitals/unraid-dark-plugin">
