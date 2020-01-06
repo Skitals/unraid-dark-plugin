@@ -278,7 +278,7 @@ function previewChanges() {
 }
 
 function resetDefaults() {
-	if (document.getElementById("confirmReset").checked != true) { document.getElementById("changes").innerHTML = "Please Check to Cofirm"; } else {
+	if (document.getElementById("confirmReset").checked != true) { document.getElementById("changes").innerHTML = "Please Check to Confirm"; } else {
             $.ajax({
                 type: "POST",
                 url: "/update.php" ,
